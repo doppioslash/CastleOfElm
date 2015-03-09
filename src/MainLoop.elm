@@ -20,6 +20,8 @@ import Signal.Extra
 --- armors
 ---
 -- MAP
+-- where do I fit cursed/enchanted stuff?
+
 type alias Attributes = -- PC and NPC
     { str: Int
     , int: Int
@@ -30,7 +32,10 @@ type alias Attributes = -- PC and NPC
 type alias Character = 
     { x: Int
     , y: Int
+    , hp: Int
+    , mana: Int
     , sprite: Int
+    , attributes: Attributes
     } -- attributes
 
 type alias Tile = 
@@ -40,7 +45,13 @@ type alias Tile =
     , things: List Thing 
     }
 
+type KeyMapping = {}
+
 type alias Grid = List Tile -- made of tiles
+
+type Spells
+    = Identify
+    | Offensive Elemental Strenght
 
 type Avatar
     = Dragon
@@ -59,6 +70,7 @@ type TileCode
     | Stone
     | Blah
     | Door
+    | Roof
 
 type Direction 
     = Left 
@@ -66,10 +78,27 @@ type Direction
     | Up
     | Down
 
+type Shop
+    = Bank
+    | Armour
+    | Weapon
+    | Magic
+
 type Action
     = NoOp
     | Move Direction
     | Use (Thing, Tile) -- thing is like potion or weapon, tile is the target
+    | Open Thing
+    | Close Thing
+    | Rest
+    | Disarm Trap
+    | Search Tile
+    | Get Tile
+    | FreeHand
+    | ShowMap
+    | ShowInventory
+    | TakeStairs Tile
+    | MoveMoveOver Tile
 
 type Reactions
     = Spawn Character
@@ -86,6 +115,10 @@ update action model =
     case action of
         Reset -> ""
 
+-- random generation of dungeon
+
+randomGeneration : (Int, Int) -> Grid
+
 -- user input 
 -- on which tile it ends up
 -- which other tiles become visible
@@ -93,7 +126,7 @@ update action model =
 -- or be attacked
 -- update monsters paths and spawn them
 -- update time ticking
--- 
+-- consume mana if used magic
 
 -- VIEW
 --- draw the tiles

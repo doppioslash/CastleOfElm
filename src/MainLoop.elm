@@ -14,7 +14,7 @@ import Set
 type alias Model =
     { x : Float
     , y : Float
-    , dir : Direction
+    , dir: Direction
     }
 
 type alias Keys = { x:Int, y:Int }
@@ -38,30 +38,22 @@ pc =
 
 -- UPDATE
 
-update : (Float, Keys) -> Model -> Model
-update (dt, keys) pc = 
+update : Keys -> Model -> Model
+update keys pc = 
     pc
         |> vertical keys
         |> horizontal keys
-        
-    {--case action of
-        Move dir ->
-            case dir of
-                Right -> { model | x <- model.x + 1 }
-                Left -> { model | x <- model.x - 1 }
-                Up -> { model | y <- model.y + 1 }
-                Down -> { model | y <- model.y - 1 }--}
 
 vertical : Keys -> Model -> Model
 vertical keys pc =
-    if  | keys.y > 0 -> { pc | y <- pc.y + 1}
-        | keys.y < 0 -> { pc | y <- pc.y - 1}
+    if  | keys.y > 0 -> { pc | y <- pc.y + 1, dir <- Up }
+        | keys.y < 0 -> { pc | y <- pc.y - 1, dir <- Down }
         | otherwise -> pc
 
 horizontal : Keys -> Model -> Model
 horizontal keys pc =
-    if  | keys.x > 0 -> { pc | x <- pc.x + 1}
-        | keys.x < 0 -> { pc | x <- pc.x - 1}
+    if  | keys.x > 0 -> { pc | x <- pc.x + 1, dir <- Right }
+        | keys.x < 0 -> { pc | x <- pc.x - 1, dir <- Left }
         | otherwise -> pc
 
 -- user input 
@@ -73,20 +65,34 @@ horizontal keys pc =
 -- update time ticking
 
 -- VIEW
+view : (Int, Int) -> Model -> Element
+view (w',h') pc =
+    let (w,h) = (toFloat w', toFloat h')
+        dir =
+            case pc.dir of
+              Left -> "left"
+              Right -> "right"
+              Up -> "up"
+              Down -> "down"
 
+        src = "../img/pc/" ++ dir ++".png"
+        pcImage = image 64 64 src
+        groundY = 62 - h/2
+    in
+        collage w' h'
+            [ pcImage
+              |> toForm
+              |> Debug.trace "pc"
+              |> move (pc.x * 64, (64 * pc.y) + groundY)
+            ]
 
 -- SIGNALS
 
-
 main : Signal Element
 main =
-  Signal.map asText (Signal.foldp update pc input)
+  Signal.map2 view Window.dimensions (Signal.foldp update pc input)
 
 -- samples arrows when fps tick
-input : Signal (Float, Keys)
+input : Signal Keys
 input =
-  let delta = Signal.map (\t -> t/20) (fps 60)
-      deltaArrows =
-          Signal.map2 (,) delta (Signal.map (Debug.watch "arrows") Keyboard.arrows)
-  in
-      Signal.sampleOn delta deltaArrows
+    Signal.map (Debug.watch "arrows") Keyboard.arrows

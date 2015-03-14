@@ -9,34 +9,16 @@ import List (..)
 import Window
 import Signal.Extra
 
--- MODEL
--- PC - 
--- NPCs
---- monsters
---- shops
--- ITEMS
---- potions
---- weapons
---- armors
----
--- MAP
--- where do I fit cursed/enchanted stuff?
-
 type alias Attributes = -- PC and NPC
-    { str: Int
-    , int: Int
-    , con: Int
-    , dex: Int
-    }
+    { str: Int, int: Int, con: Int, dex: Int }
 
 type alias Character = 
     { x: Int
     , y: Int
     , hp: Int
-    , mana: Int
     , sprite: Int
     , attributes: Attributes
-    } -- attributes
+    }
 
 type alias Tile = 
     { x: Int
@@ -49,17 +31,15 @@ type KeyMapping = {}
 
 type alias Grid = List Tile -- made of tiles
 
-type Spells
-    = Identify
-    | Offensive Elemental Strenght
+type alias MainGrid = List Grid
 
-type Avatar
-    = Dragon
-    | Man
-    | Woman
+type Character
+    = PC
+    | NPC
 
 type Thing
-    = PC
+    = None
+    | PC
     | NPC
     | Door
     | Item
@@ -77,12 +57,6 @@ type Direction
     | Right
     | Up
     | Down
-
-type Shop
-    = Bank
-    | Armour
-    | Weapon
-    | Magic
 
 type Action
     = NoOp
@@ -132,9 +106,8 @@ randomGeneration : (Int, Int) -> Grid
 --- draw the tiles
 --- and the sprites
 
-
 -- SIGNALS
 --- the Player moving makes everything go on one step
 
 
-main =
+main = 

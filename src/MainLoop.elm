@@ -38,17 +38,31 @@ pc =
 
 -- UPDATE
 
-update : (Float, Keys) -> Keys
-update (dt, keys) = keys
-    {--
-    case action of
+update : (Float, Keys) -> Model -> Model
+update (dt, keys) pc = 
+    pc
+        |> vertical keys
+        |> horizontal keys
+        
+    {--case action of
         Move dir ->
             case dir of
                 Right -> { model | x <- model.x + 1 }
                 Left -> { model | x <- model.x - 1 }
                 Up -> { model | y <- model.y + 1 }
                 Down -> { model | y <- model.y - 1 }--}
-        
+
+vertical : Keys -> Model -> Model
+vertical keys pc =
+    if  | keys.y > 0 -> { pc | y <- pc.y + 1}
+        | keys.y < 0 -> { pc | y <- pc.y - 1}
+        | otherwise -> pc
+
+horizontal : Keys -> Model -> Model
+horizontal keys pc =
+    if  | keys.x > 0 -> { pc | x <- pc.x + 1}
+        | keys.x < 0 -> { pc | x <- pc.x - 1}
+        | otherwise -> pc
 
 -- user input 
 -- on which tile it ends up
@@ -66,7 +80,7 @@ update (dt, keys) = keys
 
 main : Signal Element
 main =
-  Signal.map asText input
+  Signal.map asText (Signal.foldp update pc input)
 
 -- samples arrows when fps tick
 input : Signal (Float, Keys)

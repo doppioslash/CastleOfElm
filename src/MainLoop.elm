@@ -4,11 +4,9 @@ import Debug
 import Graphics.Collage (..)
 import Graphics.Element (..)
 import Keyboard
-import Signal
+import Signal (Signal, (<~), map, merge, map2, foldp)
 import Time (..)
-import List (..)
 import Window
-import Set
 --import Tiles (..)
 
 type alias Model =
@@ -17,17 +15,32 @@ type alias Model =
     , dir: Direction
     }
 
+type alias WallTile = { r: WallJunction, l: WallJunction, u: WallJunction, d: WallJunction }
+
 type alias Keys = { x:Int, y:Int }
+
+type WallJunction
+    = Flat
+    | Empty
 
 type Direction 
     = Left 
     | Right
     | Up
     | Down
+    | None
 
 type Action
     = NoOp
     | Move Direction
+
+type Tiles
+    = Door
+    | SmallChest
+    | BigChest
+    | SmallDoor
+    | Floor
+    | Water
 
 pc : Model
 pc =
@@ -36,27 +49,27 @@ pc =
     , dir = Right
     }
 
+mainGrid : List Tiles
+mainGrid = [ Floor, Floor, Floor, Floor, Floor, Floor, Floor]
+
 -- UPDATE
 
-update : Keys -> Model -> Model
-update keys pc = 
+update : Direction -> Model -> Model
+update dir pc = 
     pc
-        |> vertical keys
-        |> horizontal keys
+        |> movepc dir
+        -- if into monster slash
 
-vertical : Keys -> Model -> Model
-vertical keys pc =
-    if  | keys.y > 0 -> { pc | y <- pc.y + 1, dir <- Up }
-        | keys.y < 0 -> { pc | y <- pc.y - 1, dir <- Down }
-        | otherwise -> pc
 
-horizontal : Keys -> Model -> Model
-horizontal keys pc =
-    if  | keys.x > 0 -> { pc | x <- pc.x + 1, dir <- Right }
-        | keys.x < 0 -> { pc | x <- pc.x - 1, dir <- Left }
-        | otherwise -> pc
+movepc : Direction -> Model -> Model
+movepc dir pc =
+    case dir of
+        Up -> { pc | y <- pc.y + 1, dir <- Up }
+        Down -> { pc | y <- pc.y - 1, dir <- Down }
+        Left -> { pc | x <- pc.x - 1, dir <- Left }
+        Right -> { pc | x <- pc.x + 1, dir <- Right }
+        None -> pc
 
--- user input 
 -- on which tile it ends up
 -- which other tiles become visible
 -- which mosters are in range to attack
@@ -75,10 +88,11 @@ view (w',h') pc =
               Up -> "up"
               Down -> "down"
 
-        src = "../img/pc/" ++ dir ++".png"
+        src = "../img/pc/" ++ dir ++".png" -- Hardcoded
         pcImage = image 64 64 src
         groundY = 62 - h/2
     in
+        -- drawGrid mainGrid
         collage w' h'
             [ pcImage
               |> toForm
@@ -86,13 +100,23 @@ view (w',h') pc =
               |> move (pc.x * 64, (64 * pc.y) + groundY)
             ]
 
+
 -- SIGNALS
 
 main : Signal Element
 main =
-  Signal.map2 view Window.dimensions (Signal.foldp update pc input)
+  map2 view Window.dimensions (foldp update pc input)
+
+inputDir : Signal Direction
+inputDir = let dir ds  = 
+                      if | ds == {x=0,y=1} -> Up
+                         | ds == {x=0,y=-1} -> Down
+                         | ds == {x=1,y=0} -> Right
+                         | ds == {x=-1,y=0} -> Left
+                         | otherwise -> None
+    in merge (dir <~ Keyboard.arrows) (dir <~ Keyboard.wasd)
 
 -- samples arrows when fps tick
-input : Signal Keys
+input : Signal Direction
 input =
-    Signal.map (Debug.watch "arrows") Keyboard.arrows
+    map (Debug.watch "direction") inputDir

@@ -69,6 +69,7 @@ type alias Grid = List Tile --more than 1 layer
 
 type alias Model = 
     { grid: Grid
+    , gridSide: Float
     , pc : Character
 }
 
@@ -219,11 +220,11 @@ displayTileAtIndex index tile =
 gridWidth : Float -- the width of the entire game grid
 gridWidth = (toFloat gridSize) * (toFloat tileSize)
 
-displayGrid : Grid -> Element -- display a grid
+displayGrid : Grid -> List Form -- display a grid
 displayGrid g = 
     let
         tiles = indexedMap displayTileAtIndex g
     in 
-        collage (round gridWidth) (round gridWidth) tiles
+        tiles
 
 -- collisions : all except floor

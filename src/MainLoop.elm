@@ -21,6 +21,7 @@ pcState =
 model : Model
 model = 
     { grid = mainGrid
+    , gridSide = gridWidth
     , pc = pcState }
 
 -- UPDATE
@@ -53,9 +54,9 @@ movepc dir model =
 -- update time ticking
 
 -- VIEW
-view : (Int, Int) -> Model -> Element
-view (w',h') model =
-    let (w,h) = (toFloat w', toFloat h')
+view : Model -> Element
+view model =
+    let
         dir =
             case model.pc.dir of
               Left -> "left"
@@ -64,21 +65,19 @@ view (w',h') model =
               Down -> "down"
         src = "../img/pc/" ++ dir ++".png" -- Hardcoded
         pcImage = image 64 64 src
-        groundY = 62 - h/2
+        groundY = 62 - model.gridSide/2
     in
-        --collage w' h'
-            displayGrid mainGrid
-            {--pcImage
+        collage (round model.gridSide) (round model.gridSide) ((displayGrid mainGrid) ++
+            [pcImage
               |> toForm
               |> Debug.trace "pc"
-              |> move (model.pc.x * 64, (64 * model.pc.y) + groundY)--}
+              |> move (model.pc.x * 64, (64 * model.pc.y) + groundY)])
             
-
 -- SIGNALS
 
 main : Signal Element
 main =
-  map2 view Window.dimensions (foldp update model input)
+  map view (foldp update model input)
 
 inputDir : Signal Direction
 inputDir = let dir ds  = 

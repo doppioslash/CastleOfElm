@@ -18,45 +18,6 @@ pcState =
     , dir = Right
     } -- tyredness strenght blabla
 
-mainGrid : Grid
-mainGrid = [BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor]
-
 model : Model
 model = 
     { grid = mainGrid
@@ -101,7 +62,6 @@ view (w',h') model =
               Right -> "right"
               Up -> "up"
               Down -> "down"
-
         src = "../img/pc/" ++ dir ++".png" -- Hardcoded
         pcImage = image 64 64 src
         groundY = 62 - h/2

@@ -25,7 +25,9 @@ type alias Character =
 
 type BackGroundTile
     = Floor --random floor tile
-    | Wall WallTile
+    | WallOver WallTile
+    | Wall
+    | Water
 
 type ShadowTile
     = Main
@@ -70,6 +72,99 @@ type alias Model =
     , pc : Character
 }
 
+ffff : WallTile
+ffff = { r = Flat, u = Flat, l = Flat, d = Flat }
+efef : WallTile
+efef = { r = Empty, u = Flat, l = Empty, d = Flat }
+feef : WallTile
+feef = { r = Flat, u = Empty, l = Empty, d = Flat }
+eeff : WallTile
+eeff = { r = Empty, u = Empty, l = Flat, d = Flat }
+fefe : WallTile
+fefe = { r = Flat, u = Empty, l = Flat, d = Empty }
+ffee : WallTile
+ffee = { r = Flat, u = Flat, l = Empty, d = Empty }
+effe : WallTile
+effe = { r = Empty, u = Flat, l = Flat, d = Empty }
+feee : WallTile
+feee = { r = Flat, u = Empty, l = Empty, d = Empty }
+eefe : WallTile
+eefe = { r = Empty, u = Empty, l = Flat, d = Empty }
+efff : WallTile
+efff = { r = Empty, u = Flat, l = Flat, d = Flat }
+ffef : WallTile
+ffef = { r = Flat, u = Flat, l = Empty, d = Flat }
+efee : WallTile
+efee = { r = Empty, u = Flat, l = Empty, d = Empty }
+
+mainGrid : Grid
+mainGrid = [BackGround (WallOver ffee), BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver efef), 
+            BackGround (WallOver efef), BackGround (WallOver efef), --first line
+            BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver efef), 
+            BackGround (WallOver efef), BackGround (WallOver efef),
+            BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver effe),
+
+            BackGround (WallOver fefe), BackGround Wall, BackGround Wall, -- second line
+            BackGround Wall, BackGround Wall, BackGround Wall, BackGround Wall, BackGround Wall, BackGround Wall,
+            BackGround Wall, BackGround Wall, BackGround Wall, BackGround Wall, BackGround Wall, BackGround (WallOver fefe),
+
+            BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
+            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
+            BackGround Floor, BackGround Floor, BackGround (WallOver fefe), 
+
+            BackGround (WallOver fefe), BackGround Floor, BackGround Floor,
+            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
+            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround (WallOver fefe),
+
+            BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
+            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
+            BackGround Floor, BackGround Floor, BackGround (WallOver fefe), 
+
+            BackGround (WallOver feee), BackGround (WallOver efef), BackGround (WallOver efef),
+            BackGround (WallOver efee), BackGround (WallOver efff), BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
+            BackGround Floor, BackGround (WallOver ffef), BackGround (WallOver efef), BackGround (WallOver efef), 
+            BackGround (WallOver efef), BackGround (WallOver eefe),
+            
+            BackGround (WallOver fefe), BackGround Wall, BackGround Wall, BackGround (WallOver fefe), BackGround Wall, 
+            BackGround Floor,
+            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Wall, BackGround Wall,
+            BackGround Wall, BackGround Wall, BackGround (WallOver fefe), 
+
+            BackGround (WallOver fefe), BackGround Floor, BackGround Floor,
+            BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, 
+            BackGround Floor,
+            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround (WallOver fefe),
+
+            BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround (WallOver fefe), 
+            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
+            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround (WallOver fefe),
+
+            BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround (WallOver feef), BackGround (WallOver efef), 
+            BackGround (WallOver efff),
+            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
+            BackGround Floor, BackGround Floor, BackGround (WallOver fefe), 
+
+            BackGround (WallOver fefe), BackGround Floor, BackGround Floor,
+            BackGround Wall, BackGround Wall, BackGround Wall, BackGround Floor, BackGround Floor, BackGround Floor,
+            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround (WallOver fefe),
+
+            BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
+            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
+            BackGround Floor, BackGround Floor, BackGround (WallOver fefe),
+
+            BackGround (WallOver feef), BackGround (WallOver efef), BackGround (WallOver efef),  BackGround (WallOver efef),
+            BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver efef),
+            BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver efef),
+            BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver eeff),
+
+            BackGround Wall, BackGround Wall, BackGround Wall, BackGround Wall, BackGround Wall, BackGround Wall, --last line
+            BackGround Wall, BackGround Wall, BackGround Wall, BackGround Wall, BackGround Wall, BackGround Wall,
+            BackGround Wall, BackGround Wall, BackGround Wall,
+
+            BackGround Water, BackGround Water, BackGround Water, BackGround Water, BackGround Water, BackGround Water, --last line
+            BackGround Water, BackGround Water, BackGround Water, BackGround Water, BackGround Water, BackGround Water,
+            BackGround Water, BackGround Water, BackGround Water]
+
 gridSize : Int
 gridSize = 15
 
@@ -81,9 +176,27 @@ tileSize = 64
 -----------------------------------------------------}
 displayTile : Tile -> Element
 displayTile tile =
-    let src =
+    let 
+        checkWallImg walltype = 
+            let 
+                getsrc side =
+                     if | side == Flat -> "flat"
+                        | side == Empty -> "empty" 
+                r = getsrc walltype.r
+                l = getsrc walltype.l
+                u = getsrc walltype.u
+                d = getsrc walltype.d
+            in
+                "../img/walls/" ++ r ++ "-" ++ u ++ "-" ++ l ++ "-" ++ d ++ ".png"
+        checkBgImg bgtype =
+            case bgtype of
+                Floor -> "../img/floor/floor_01.png"
+                Wall  -> "../img/walls/wall.png"
+                Water -> "../img/water/water_01.png"
+                WallOver tile -> checkWallImg tile
+        src =
             case tile of
-              BackGround tiletype -> "../img/floor/floor_01.png"
+              BackGround tiletype -> checkBgImg tiletype
     in
         image tileSize tileSize src
 

@@ -10,11 +10,6 @@
     "exposed-modules": [],
     "elm-version": "0.14.1",
     "dependencies": {
-        "elm-lang/core": "1.1.1 <= v < 1.1.2",
-        "evancz/elm-svg": "1.0.1 <= v < 1.0.2",
-        "jwmerrill/elm-animation-frame": "1.0.2 <= v < 1.0.3",
-        "Dandandan/parser": "4.1.1 <= v < 5.0.0",
-        "johnpmayer/elm-linear-algebra": "2.0.0 <= v < 3.0.0",
-        "johnpmayer/elm-webgl": "1.0.1 <= v < 2.0.0"
+        "elm-lang/core": "1.1.1 <= v < 1.1.2"
     } 
 }

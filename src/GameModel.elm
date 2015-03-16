@@ -96,6 +96,8 @@ ffef : WallTile
 ffef = { r = Flat, u = Flat, l = Empty, d = Flat }
 efee : WallTile
 efee = { r = Empty, u = Flat, l = Empty, d = Empty }
+fffe : WallTile
+fffe = { r = Flat, u = Flat, l = Flat, d = Empty }
 
 mainGrid : Grid
 mainGrid = [BackGround (WallOver ffee), BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver efef), 
@@ -113,21 +115,21 @@ mainGrid = [BackGround (WallOver ffee), BackGround (WallOver efef), BackGround (
             BackGround Floor, BackGround Floor, BackGround (WallOver fefe), 
 
             BackGround (WallOver fefe), BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
+            BackGround Floor, BackGround Floor, BackGround Floor, BackGround (WallOver fffe), BackGround Floor, BackGround Floor,
             BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround (WallOver fefe),
 
             BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
+            BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
             BackGround Floor, BackGround Floor, BackGround (WallOver fefe), 
 
             BackGround (WallOver feee), BackGround (WallOver efef), BackGround (WallOver efef),
-            BackGround (WallOver efee), BackGround (WallOver efff), BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
+            BackGround (WallOver efee), BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver eeff), BackGround Floor, BackGround Floor,
             BackGround Floor, BackGround (WallOver ffef), BackGround (WallOver efef), BackGround (WallOver efef), 
             BackGround (WallOver efef), BackGround (WallOver eefe),
             
             BackGround (WallOver fefe), BackGround Wall, BackGround Wall, BackGround (WallOver fefe), BackGround Wall, 
-            BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Wall, BackGround Wall,
+            BackGround Wall,
+            BackGround Wall, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Wall, BackGround Wall,
             BackGround Wall, BackGround Wall, BackGround (WallOver fefe), 
 
             BackGround (WallOver fefe), BackGround Floor, BackGround Floor,

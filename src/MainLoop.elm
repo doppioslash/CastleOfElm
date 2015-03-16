@@ -6,7 +6,6 @@ import Graphics.Element (image, Element)
 import Keyboard
 import Signal (Signal, (<~), map, merge, map2, foldp)
 import Time (..)
-import Window
 import GameModel (..)
 import List (repeat)
 

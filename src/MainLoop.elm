@@ -35,16 +35,24 @@ update dir model =
 
 movepc : Direction -> Model -> Model
 movepc dir model =
-    let updatePc pc dir = 
-        case dir of
-            Up ->  { pc |  y <- pc.y + 1, dir <- Up }
-            Down -> { pc | y <- pc.y - 1, dir <- Down }
-            Left -> { pc | x <- pc.x - 1, dir <- Left }
-            Right -> { pc | x <- pc.x + 1, dir <- Right }
-            None -> pc
+    let 
+        checkPc default pc =
+            let 
+                x = pc.x |> Debug.watch "pc x"
+                y = pc.y |> Debug.watch "pc y"
+                idx = getTileIdxFromPosition (pc.x, pc.y) |> Debug.watch "idx"
+                tile = getListIdx idx model.grid |> Debug.watch "tile"
+            in
+                if tile == BackGround Floor then pc else default 
+        updatePc pc dir = 
+            case dir of
+                Up ->  { pc |  y <- pc.y + 1, dir <- Up }
+                Down -> { pc | y <- pc.y - 1, dir <- Down }
+                Left -> { pc | x <- pc.x - 1, dir <- Left }
+                Right -> { pc | x <- pc.x + 1, dir <- Right }
+                None -> pc
     in 
-        { model | pc <- updatePc model.pc dir }
-        -- put a guard for collisions here
+        { model | pc <- (checkPc model.pc (updatePc model.pc dir)) }
 
 -- on which tile it ends up
 -- which other tiles become visible
@@ -65,13 +73,12 @@ view model =
               Down -> "down"
         src = "../img/pc/" ++ dir ++".png" -- Hardcoded
         pcImage = image 64 64 src
-        groundY = 62 - model.gridSide/2
     in
         collage (round model.gridSide) (round model.gridSide) ((displayGrid mainGrid) ++
             [pcImage
               |> toForm
               |> Debug.trace "pc"
-              |> move (model.pc.x * 64, (64 * model.pc.y) + groundY)])
+              |> move (model.pc.x * 64, (64 * model.pc.y))])
             
 -- SIGNALS
 

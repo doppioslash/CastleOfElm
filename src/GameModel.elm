@@ -1,7 +1,7 @@
 module GameModel where
 
 import Utils ((!), transpose)
-import List (map, concat, indexedMap)
+import List (map, concat, indexedMap, head, drop)
 import Graphics.Element (..)
 import Graphics.Collage (..)
 
@@ -172,6 +172,10 @@ gridSize = 15
 tileSize : Int
 tileSize = 64
 
+getListIdx: Int -> Grid -> Tile
+getListIdx idx list =
+    head (drop idx list)
+
 {----------------------------------------------------
                     Tile Functions
 -----------------------------------------------------}
@@ -220,6 +224,13 @@ displayTileAtIndex index tile =
 gridWidth : Float -- the width of the entire game grid
 gridWidth = (toFloat gridSize) * (toFloat tileSize)
 
+getTileIdxFromPosition : (Float, Float) -> Int
+getTileIdxFromPosition (x, y) =
+    let 
+        x_tile = (round x) + 7
+        y_tile = 8 - (round y)
+    in
+        (y_tile - 1) * gridSize + x_tile 
 displayGrid : Grid -> List Form -- display a grid
 displayGrid g = 
     let

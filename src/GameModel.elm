@@ -1,6 +1,5 @@
 module GameModel where
 
-import Utils ((!), transpose)
 import List (map, concat, indexedMap, head, drop)
 import Graphics.Element (..)
 import Graphics.Collage (..)

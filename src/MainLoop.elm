@@ -7,7 +7,6 @@ import Keyboard
 import Signal (Signal, (<~), map, merge, map2, foldp)
 import Time (..)
 import Window
-import Utils ((!), transpose)
 import GameModel (..)
 import List (repeat)
 

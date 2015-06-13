@@ -1,20 +1,20 @@
-import Color (..)
-import Text (..)
+import Color exposing (..)
+import Text exposing (..)
 import Debug
-import Graphics.Collage (..)
-import Graphics.Element (image, Element)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (image, Element)
 import Keyboard
-import Signal (Signal, (<~), map, merge, map2, foldp)
-import Time (..)
-import GameModel (..)
-import List (repeat)
+import Signal exposing (Signal, (<~), map, merge, map2, foldp)
+import Time exposing (..)
+import GameModel exposing (..)
+import List exposing (repeat)
 
 pcState : Character
 pcState =
     { x = 0
     , y = 0 
     , dir = Right
-    } -- tyredness strenght blabla
+    } -- tiredness strenght blabla
 
 model : Model
 model = 
@@ -41,7 +41,9 @@ movepc dir model =
                 idx = getTileIdxFromPosition (pc.x, pc.y) |> Debug.watch "idx"
                 tile = getListIdx idx model.grid |> Debug.watch "tile"
             in
-                if tile == BackGround Floor then pc else default 
+              case tile of
+                Nothing -> pc
+                Just tilet -> if tilet == BackGround Floor then pc else default 
         updatePc pc dir = 
             case dir of
                 Up ->  { pc |  y <- pc.y + 1, dir <- Up }

@@ -1,5 +1,5 @@
 {
-    "version": "0.0.1",
+    "version": "0.0.2",
     "summary": "Roguelike for 7DRL make in Elm",
     "repository": "https://github.com/doppioslash/ElmRoguelike.git",
     "description": "",
@@ -8,8 +8,8 @@
         "src"
     ],
     "exposed-modules": [],
-    "elm-version": "0.14.1",
+    "elm-version": "0.15.0 <= v < 0.16.0",
     "dependencies": {
-        "elm-lang/core": "1.1.1 <= v < 1.1.2"
+        "elm-lang/core": "2.0.0 <= v < 3.0.0"
     } 
 }

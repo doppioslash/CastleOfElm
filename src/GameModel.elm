@@ -1,8 +1,8 @@
 module GameModel where
 
-import List (map, concat, indexedMap, head, drop)
-import Graphics.Element (..)
-import Graphics.Collage (..)
+import List exposing (map, concat, indexedMap, head, drop)
+import Graphics.Element exposing (..)
+import Graphics.Collage exposing (..)
 
 type Direction 
     = Left 
@@ -173,7 +173,7 @@ gridSize = 15
 tileSize : Int
 tileSize = 64
 
-getListIdx: Int -> Grid -> Tile
+getListIdx: Int -> Grid -> Maybe Tile
 getListIdx idx list =
     head (drop idx list)
 

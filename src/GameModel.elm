@@ -186,8 +186,11 @@ displayTile tile =
         checkWallImg walltype = 
             let 
                 getsrc side =
-                     if | side == Flat -> "flat"
-                        | side == Empty -> "empty" 
+                  case side of
+                    Flat ->
+                      "flat"
+                    Empty ->
+                      "empty"
                 r = getsrc walltype.r
                 l = getsrc walltype.l
                 u = getsrc walltype.u
@@ -202,7 +205,10 @@ displayTile tile =
                 WallOver tile -> checkWallImg tile
         src =
             case tile of
-              BackGround tiletype -> checkBgImg tiletype
+              BackGround tiletype ->
+                checkBgImg tiletype
+              _ ->
+                ""
     in
         image tileSize tileSize src
 

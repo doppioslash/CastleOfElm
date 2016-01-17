@@ -53,12 +53,7 @@ movepc dir model =
 -- update monsters paths and spawn them
 -- update time ticking
 
--- get window dimensions signal
--- calculate what tiles to draw:
--- how many fit vertically
--- how many fit horizontally
 -- what is the center (PC)
-
 
 -- VIEW
 matchToSide : (Int, Int) -> Int -> (Int, Int)
@@ -86,11 +81,12 @@ view frame model =
       (tW, tH) = matchToSide (log "win" frame) tileSide
       tWSide = (tW * tileSide)
       tHSide = (tH * tileSide)
+      pcPos = (model.pc.x * tileSide, tileSide * model.pc.y)
     in
-      collage tWSide tHSide ((displayGrid (10, 10) mainGrid) ++ [pcImage
-                                                                   |> toForm
-                                                                   |> Debug.trace "pc"
-                                                                   |> move (model.pc.x * tileSide, (tileSide * model.pc.y))])
+      collage tWSide tHSide ((displayGrid (tW, tH) pcPos mainGrid) ++ [pcImage
+                                                                             |> toForm
+                                                                             |> Debug.trace "pc"
+                                                                             |> move pcPos])
             
 -- SIGNALS
 

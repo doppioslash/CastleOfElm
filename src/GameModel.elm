@@ -238,8 +238,8 @@ getTileIdxFromPosition (x, y) =
     in
       (y_tile - 1) * gridSize + x_tile 
 
-displayGrid : (Int, Int) -> Grid -> List Form -- display a grid
-displayGrid frame g = 
+displayGrid : (Int, Int) -> (Float, Float) -> Grid -> List Form -- display a grid
+displayGrid frame pcCoords g = 
     let
       tiles = indexedMap displayTileAtIndex g
     in 

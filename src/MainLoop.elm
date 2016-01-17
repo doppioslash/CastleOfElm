@@ -1,13 +1,14 @@
-import Color exposing (..)
-import Text exposing (..)
+-- import Color exposing (..)
+-- import Text exposing (..)
+import Window
 import Debug
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (image, Element)
 import Keyboard
 import Signal exposing (Signal, map, merge, map2, foldp)
-import Time exposing (..)
+-- import Time exposing (..)
 import GameModel exposing (..)
-import List exposing (repeat)
+-- import List exposing (repeat)
 
 pcState : Character
 pcState =
@@ -61,41 +62,50 @@ movepc dir model =
 -- update monsters paths and spawn them
 -- update time ticking
 
+-- get window dimensions signal
+-- calculate what tiles to draw:
+-- how many fit vertically
+-- how many fit horizontally
+-- what is the center (PC)
+
+
 -- VIEW
-view : Model -> Element
-view model =
+view : (Int, Int) -> Model -> Element
+view frame model =
     let
-        dir =
-            case model.pc.dir of
-              Left -> "left"
-              Right -> "right"
-              Up -> "up"
-              Down -> "down"
-              _ -> "none"
-        src = "../img/pc/" ++ dir ++".png" -- Hardcoded
-        pcImage = image 64 64 src
+      dir =
+        case model.pc.dir of
+          Left -> "left"
+          Right -> "right"
+          Up -> "up"
+          Down -> "down"
+          _ -> "none"
+      src = "../img/pc/" ++ dir ++".png" -- Hardcoded
+      pcImage = image 64 64 src
     in
-        collage (round model.gridSide) (round model.gridSide) ((displayGrid mainGrid) ++
-            [pcImage
-              |> toForm
-              |> Debug.trace "pc"
-              |> move (model.pc.x * 64, (64 * model.pc.y))])
+      collage (round model.gridSide) (round model.gridSide) ((displayGrid frame mainGrid) ++
+                                                             [pcImage
+                                                                |> toForm
+                                                                |> Debug.trace "pc"
+                                                                |> move (model.pc.x * 64, (64 * model.pc.y))])
             
 -- SIGNALS
 
 main : Signal Element
 main =
-  map view (foldp update model input)
+  map2 view Window.dimensions (foldp update model input) 
 
+-- INPUTS: CONTROLS
 inputDir : Signal Direction
-inputDir = let dir { x, y }  = 
-                      case (x, y) of
-                        (  0,  1 ) -> Up
-                        (  0, -1 ) -> Down
-                        (  1,  0 ) -> Right
-                        ( -1,  0 ) -> Left
-                        _ -> None
-    in merge (Signal.map dir Keyboard.arrows) (Signal.map dir Keyboard.wasd)
+inputDir =
+  let dir { x, y }  = 
+      case (x, y) of
+        (  0,  1 ) -> Up
+        (  0, -1 ) -> Down
+        (  1,  0 ) -> Right
+        ( -1,  0 ) -> Left
+        _ -> None
+  in merge (Signal.map dir Keyboard.arrows) (Signal.map dir Keyboard.wasd)
 
 -- samples arrows when fps tick
 input : Signal Direction

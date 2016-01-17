@@ -56,7 +56,6 @@ type WallJunction
     = Flat
     | Empty
 
-
 type alias WallTile = { r: WallJunction, l: WallJunction, u: WallJunction, d: WallJunction }
 
 type Progress
@@ -180,37 +179,41 @@ getListIdx idx list =
 {----------------------------------------------------
                     Tile Functions
 -----------------------------------------------------}
+
+
+checkWallImg walltype = 
+  let 
+    getsrc side =
+      case side of
+        Flat ->
+          "flat"
+        Empty ->
+          "empty"
+    r = getsrc walltype.r
+    l = getsrc walltype.l
+    u = getsrc walltype.u
+    d = getsrc walltype.d
+  in
+    "../img/walls/" ++ r ++ "-" ++ u ++ "-" ++ l ++ "-" ++ d ++ ".png"
+
+
+checkBgImg bgtype =
+  case bgtype of
+    Floor -> "../img/floor/floor_01.png"
+    Wall  -> "../img/walls/wall.png"
+    Water -> "../img/water/water_01.png"
+    WallOver tile -> checkWallImg tile
+    
 displayTile : Tile -> Element
 displayTile tile =
     let 
-        checkWallImg walltype = 
-            let 
-                getsrc side =
-                  case side of
-                    Flat ->
-                      "flat"
-                    Empty ->
-                      "empty"
-                r = getsrc walltype.r
-                l = getsrc walltype.l
-                u = getsrc walltype.u
-                d = getsrc walltype.d
-            in
-                "../img/walls/" ++ r ++ "-" ++ u ++ "-" ++ l ++ "-" ++ d ++ ".png"
-        checkBgImg bgtype =
-            case bgtype of
-                Floor -> "../img/floor/floor_01.png"
-                Wall  -> "../img/walls/wall.png"
-                Water -> "../img/water/water_01.png"
-                WallOver tile -> checkWallImg tile
-        src =
-            case tile of
-              BackGround tiletype ->
-                checkBgImg tiletype
-              _ ->
-                ""
+      src =
+        case tile of
+          BackGround tiletype ->
+            checkBgImg tiletype
+          _ ->""
     in
-        image tileSize tileSize src
+      image tileSize tileSize src
 
 displayTileAtCoordinates : (Tile, Int, Int) -> Form
 displayTileAtCoordinates (t,i,j) = 
@@ -234,15 +237,16 @@ gridWidth = (toFloat gridSize) * (toFloat tileSize)
 getTileIdxFromPosition : (Float, Float) -> Int
 getTileIdxFromPosition (x, y) =
     let 
-        x_tile = (round x) + 7
-        y_tile = 8 - (round y)
+      x_tile = (round x) + 7
+      y_tile = 8 - (round y)
     in
-        (y_tile - 1) * gridSize + x_tile 
-displayGrid : Grid -> List Form -- display a grid
-displayGrid g = 
+      (y_tile - 1) * gridSize + x_tile 
+
+displayGrid : (Int, Int) -> Grid -> List Form -- display a grid
+displayGrid frame g = 
     let
-        tiles = indexedMap displayTileAtIndex g
+      tiles = indexedMap displayTileAtIndex g
     in 
-        tiles
+      tiles
 
 -- collisions : all except floor

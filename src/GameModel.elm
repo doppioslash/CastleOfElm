@@ -166,10 +166,7 @@ mainGrid = [BackGround (WallOver ffee), BackGround (WallOver efef), BackGround (
             BackGround Water, BackGround Water, BackGround Water, BackGround Water, BackGround Water, BackGround Water,
             BackGround Water, BackGround Water, BackGround Water]
 
-gridSize : Int
 gridSize = 15
-
-tileSize : Int
 tileSize = 64
 
 getListIdx: Int -> Grid -> Maybe Tile
@@ -179,7 +176,6 @@ getListIdx idx list =
 {----------------------------------------------------
                     Tile Functions
 -----------------------------------------------------}
-
 
 checkWallImg walltype = 
   let 
@@ -194,14 +190,14 @@ checkWallImg walltype =
     u = getsrc walltype.u
     d = getsrc walltype.d
   in
-    "../img/walls/" ++ r ++ "-" ++ u ++ "-" ++ l ++ "-" ++ d ++ ".png"
+    "img/walls/" ++ r ++ "-" ++ u ++ "-" ++ l ++ "-" ++ d ++ ".png"
 
 
 checkBgImg bgtype =
   case bgtype of
-    Floor -> "../img/floor/floor_01.png"
-    Wall  -> "../img/walls/wall.png"
-    Water -> "../img/water/water_01.png"
+    Floor -> "img/floor/floor_01.png"
+    Wall  -> "img/walls/wall.png"
+    Water -> "img/water/water_01.png"
     WallOver tile -> checkWallImg tile
     
 displayTile : Tile -> Element

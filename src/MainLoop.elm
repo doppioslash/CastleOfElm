@@ -10,7 +10,7 @@ pcState : Character
 pcState = { x = 0, y = 0, dir = Right } -- tiredness strenght blabla
 
 model : Model
-model = 
+model =
     { grid = mainGrid
     , gridSide = gridWidth
     , pc = pcState }
@@ -18,16 +18,16 @@ model =
 -- UPDATE
 
 update : Direction -> Model -> Model
-update dir model = 
+update dir model =
     model
         |> movepc dir
         -- if into monster slash
 
 movepc : Direction -> Model -> Model
 movepc dir model =
-  let 
+  let
     checkPc default pc =
-      let 
+      let
         x = pc.x |> Debug.watch "pc x"
         y = pc.y |> Debug.watch "pc y"
         idx = getTileIdxFromPosition (pc.x, pc.y) |> Debug.watch "idx"
@@ -35,15 +35,15 @@ movepc dir model =
       in
         case tile of
           Nothing -> pc
-          Just tilet -> if tilet == BackGround Floor then pc else default 
-    updatePc pc dir = 
+          Just tilet -> if tilet == BackGround Floor then pc else default
+    updatePc pc dir =
       case dir of
         Up ->  { pc |  y = pc.y + 1, dir = Up }
         Down -> { pc | y = pc.y - 1, dir = Down }
         Left -> { pc | x = pc.x - 1, dir = Left }
         Right -> { pc | x = pc.x + 1, dir = Right }
         None -> pc
-  in 
+  in
     { model | pc = (checkPc model.pc (updatePc model.pc dir)) }
 
 -- on which tile it ends up
@@ -60,8 +60,8 @@ matchToSide : (Int, Int) -> Int -> (Int, Int)
 matchToSide frame side =
   let
     ( w, h ) = frame
-    tW =  w // side 
-    tH =  h // side 
+    tW =  w // side
+    tH =  h // side
   in
     ((log "tW" tW) , (log "tH" tH) )
 
@@ -87,17 +87,17 @@ view frame model =
                                                                              |> toForm
                                                                              |> Debug.trace "pc"
                                                                              |> move pcPos])
-            
+
 -- SIGNALS
 
 main : Signal Element
 main =
-  map2 view Window.dimensions (foldp update model input) 
+  map2 view Window.dimensions (foldp update model input)
 
 -- INPUTS: CONTROLS
 inputDir : Signal Direction
 inputDir =
-  let dir { x, y }  = 
+  let dir { x, y }  =
       case (x, y) of
         (  0,  1 ) -> Up
         (  0, -1 ) -> Down

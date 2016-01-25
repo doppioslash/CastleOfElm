@@ -4,8 +4,8 @@ import List exposing (map, concat, indexedMap, head, drop)
 import Graphics.Element exposing (..)
 import Graphics.Collage exposing (..)
 
-type Direction 
-    = Left 
+type Direction
+    = Left
     | Right
     | Up
     | Down
@@ -59,13 +59,13 @@ type WallJunction
 type alias WallTile = { r: WallJunction, l: WallJunction, u: WallJunction, d: WallJunction }
 
 type Progress
-    = InProgress 
-    | GameOver 
+    = InProgress
+    | GameOver
     | Won
 
 type alias Grid = List Tile --more than 1 layer
 
-type alias Model = 
+type alias Model =
     { grid: Grid
     , gridSide: Float
     , pc : Character
@@ -99,9 +99,9 @@ fffe : WallTile
 fffe = { r = Flat, u = Flat, l = Flat, d = Empty }
 
 mainGrid : Grid
-mainGrid = [BackGround (WallOver ffee), BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver efef), 
+mainGrid = [BackGround (WallOver ffee), BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver efef),
             BackGround (WallOver efef), BackGround (WallOver efef), --first line
-            BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver efef), 
+            BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver efef),
             BackGround (WallOver efef), BackGround (WallOver efef),
             BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver effe),
 
@@ -111,7 +111,7 @@ mainGrid = [BackGround (WallOver ffee), BackGround (WallOver efef), BackGround (
 
             BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
             BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround (WallOver fefe), 
+            BackGround Floor, BackGround Floor, BackGround (WallOver fefe),
 
             BackGround (WallOver fefe), BackGround Floor, BackGround Floor,
             BackGround Floor, BackGround Floor, BackGround Floor, BackGround (WallOver fffe), BackGround Floor, BackGround Floor,
@@ -119,31 +119,31 @@ mainGrid = [BackGround (WallOver ffee), BackGround (WallOver efef), BackGround (
 
             BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
             BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround (WallOver fefe), 
+            BackGround Floor, BackGround Floor, BackGround (WallOver fefe),
 
             BackGround (WallOver feee), BackGround (WallOver efef), BackGround (WallOver efef),
             BackGround (WallOver efee), BackGround (WallOver efef), BackGround (WallOver efef), BackGround (WallOver eeff), BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround (WallOver ffef), BackGround (WallOver efef), BackGround (WallOver efef), 
+            BackGround Floor, BackGround (WallOver ffef), BackGround (WallOver efef), BackGround (WallOver efef),
             BackGround (WallOver efef), BackGround (WallOver eefe),
-            
-            BackGround (WallOver fefe), BackGround Wall, BackGround Wall, BackGround (WallOver fefe), BackGround Wall, 
+
+            BackGround (WallOver fefe), BackGround Wall, BackGround Wall, BackGround (WallOver fefe), BackGround Wall,
             BackGround Wall,
             BackGround Wall, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Wall, BackGround Wall,
-            BackGround Wall, BackGround Wall, BackGround (WallOver fefe), 
+            BackGround Wall, BackGround Wall, BackGround (WallOver fefe),
 
             BackGround (WallOver fefe), BackGround Floor, BackGround Floor,
-            BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, 
+            BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
             BackGround Floor,
             BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround (WallOver fefe),
 
-            BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround (WallOver fefe), 
+            BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround (WallOver fefe),
             BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
             BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround (WallOver fefe),
 
-            BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround (WallOver feef), BackGround (WallOver efef), 
+            BackGround (WallOver fefe), BackGround Floor, BackGround Floor, BackGround (WallOver feef), BackGround (WallOver efef),
             BackGround (WallOver efff),
             BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor, BackGround Floor,
-            BackGround Floor, BackGround Floor, BackGround (WallOver fefe), 
+            BackGround Floor, BackGround Floor, BackGround (WallOver fefe),
 
             BackGround (WallOver fefe), BackGround Floor, BackGround Floor,
             BackGround Wall, BackGround Wall, BackGround Wall, BackGround Floor, BackGround Floor, BackGround Floor,
@@ -177,8 +177,8 @@ getListIdx idx list =
                     Tile Functions
 -----------------------------------------------------}
 
-checkWallImg walltype = 
-  let 
+checkWallImg walltype =
+  let
     getsrc side =
       case side of
         Flat ->
@@ -199,10 +199,10 @@ checkBgImg bgtype =
     Wall  -> "img/walls/wall.png"
     Water -> "img/water/water_01.png"
     WallOver tile -> checkWallImg tile
-    
+
 displayTile : Tile -> Element
 displayTile tile =
-    let 
+    let
       src =
         case tile of
           BackGround tiletype ->
@@ -212,11 +212,11 @@ displayTile tile =
       image tileSize tileSize src
 
 displayTileAtCoordinates : (Tile, Int, Int) -> Form
-displayTileAtCoordinates (t,i,j) = 
-    let position = 
+displayTileAtCoordinates (t,i,j) =
+    let position =
           ( (toFloat tileSize) * (toFloat i - (toFloat gridSize - 1)/2)
         , (-1) * (toFloat tileSize) * (toFloat j - (toFloat gridSize - 1)/2))
-    in 
+    in
         move position <| toForm <| displayTile t
 
 displayTileAtIndex : Int -> Tile -> Form
@@ -224,7 +224,7 @@ displayTileAtIndex index tile =
     let
         y =  index // gridSize
         x =  index % gridSize
-    in 
+    in
         displayTileAtCoordinates (tile, x, y)
 
 gridWidth : Float -- the width of the entire game grid
@@ -232,17 +232,17 @@ gridWidth = (toFloat gridSize) * (toFloat tileSize)
 
 getTileIdxFromPosition : (Float, Float) -> Int
 getTileIdxFromPosition (x, y) =
-    let 
+    let
       x_tile = (round x) + 7
       y_tile = 8 - (round y)
     in
-      (y_tile - 1) * gridSize + x_tile 
+      (y_tile - 1) * gridSize + x_tile
 
 displayGrid : (Int, Int) -> (Float, Float) -> Grid -> List Form -- display a grid
-displayGrid frame pcCoords g = 
+displayGrid frame pcCoords g =
     let
       tiles = indexedMap displayTileAtIndex g
-    in 
+    in
       tiles
 
 -- collisions : all except floor
